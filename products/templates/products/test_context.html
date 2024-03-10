@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Привет, {{ name }}</title>
+</head>
+<body>
+<h1>Привет, {{ name|title }}. Тебе уже {{ age }} лет.</h1>
+<h2>{{ header }}</h2>
+{% for product in products %}
+    <li>{{ product.name }} ....... {{ product.price }}р.</li>
+{% endfor %}
+{% if products_of_promotion %}
+    <h3 style="color: red;">Товары по акции:</h3>
+    {% for product in products_of_promotion %}
+        <li>{{ product.name }} ....... {{ product.price }}р.</li>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

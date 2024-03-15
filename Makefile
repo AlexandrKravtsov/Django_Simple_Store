@@ -26,7 +26,7 @@ fill_db:
 shell:
 	python manage.py shell
 
-# сохранение данных в json файлах
+# сохранение данных в json файлах:
 dumpdata:
 	python manage.py dumpdata products.ProductCategory > categories.json
 

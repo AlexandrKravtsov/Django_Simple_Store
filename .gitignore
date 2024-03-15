@@ -141,3 +141,7 @@ dmypy.json
 cython_debug/
 db_data/
 /djvenv/
+
+poetry.lock
+poetry.toml
+

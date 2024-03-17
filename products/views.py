@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from products.models import Product, ProductCategory, Basket
 
@@ -13,6 +13,7 @@ def index(request):
     return render(request, 'products/index.html', context)
 
 
+# products_list
 def products(request, category_id=None, page=1):
     context = {
         'title': 'Каталог',
@@ -26,6 +27,19 @@ def products(request, category_id=None, page=1):
     products_paginator = paginator.page(page)
     context.update({'products': products_paginator})
     return render(request, 'products/products.html', context)
+
+
+# product_detail
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product,
+                                id=id,
+                                slug=slug,
+                                available=True)
+    # cart_product_form = CartAddProductForm()
+    return render(request,
+                  'products/product_details.html',
+                  {'product': product})
+    # 'cart_product_form': cart_product_form})
 
 
 @login_required

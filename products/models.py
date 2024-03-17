@@ -1,11 +1,19 @@
 from django.db import models
+from django.urls import reverse
 
 from users.models import User
 
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=64, unique=True, verbose_name='название')
+    slug = models.SlugField(max_length=254, unique=True)
     description = models.TextField(blank=True, verbose_name='описание')
+    image = models.ImageField(
+        upload_to="category",
+        null=True,
+        blank=True,
+        default="static/vendor/img/categories/category_default.jpg",
+    )
 
     class Meta:
         verbose_name = 'категория'
@@ -13,6 +21,11 @@ class ProductCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    #
+    def get_absolute_url(self):
+        return reverse('products:category',
+                       args=[self.id])
 
 
 class Product(models.Model):
@@ -37,12 +50,17 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         indexes = [
-                models.Index(fields=['id', 'slug']),
-                models.Index(fields=['name']),
-                models.Index(fields=['-created']),
+            models.Index(fields=['id', 'slug']),
+            models.Index(fields=['name']),
+            models.Index(fields=['-created']),
         ]
+
     def __str__(self):
         return f'{self.name} | {self.category.name}'
+
+    def get_absolute_url(self):
+        return reverse('products:product_detail',
+                       args=[self.id, self.slug])
 
 
 class Basket(models.Model):
